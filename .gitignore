@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+.yarn/
+*.npm
+
+# Build outputs
+dist/
+out/
+*.js
+*.js.map
+*.d.ts
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+*.code-workspace
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Package manager
+package-lock.json
+yarn.lock
+
+# Test
+.vscode-test/
+test-results/
+
+# IDE config
+.vs/
+.vscode/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.tfplan
+
+# Backup
+*.backup
+*.bak

@@ -1,0 +1,121 @@
+{
+  "name": "megha-agent",
+  "displayName": "Megha Cloud Architect Agent",
+  "description": "AI-powered cloud architect assistant with 10+ years expertise in AWS, Azure, GCP. Generate architecture diagrams, access flows, and Terraform configurations with GitHub Copilot.",
+  "version": "0.1.0",
+  "publisher": "megha-agents",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Visualization",
+    "DevOps"
+  ],
+  "activationEvents": [
+    "onCommand:megha-agent.start",
+    "onCommand:megha-agent.generateArchitecture",
+    "onCommand:megha-agent.generateAccessFlow",
+    "onCommand:megha-agent.generateTerraform",
+    "onCommand:megha-agent.generateMermaid",
+    "onCommand:megha-agent.openDiagramEditor",
+    "onView:meghaExplorer"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "megha-agent.start",
+        "title": "Megha: Start Cloud Architecture Session",
+        "category": "Megha Agent"
+      },
+      {
+        "command": "megha-agent.generateArchitecture",
+        "title": "Megha: Generate Architecture Diagram",
+        "category": "Megha Agent"
+      },
+      {
+        "command": "megha-agent.generateAccessFlow",
+        "title": "Megha: Generate User Access Flow",
+        "category": "Megha Agent"
+      },
+      {
+        "command": "megha-agent.generateTerraform",
+        "title": "Megha: Generate Terraform Configuration",
+        "category": "Megha Agent"
+      },
+      {
+        "command": "megha-agent.generateMermaid",
+        "title": "Megha: Generate Mermaid Diagram",
+        "category": "Megha Agent"
+      },
+      {
+        "command": "megha-agent.openDiagramEditor",
+        "title": "Megha: Open Diagram Editor",
+        "category": "Megha Agent"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "meghaExplorer",
+          "name": "Megha Cloud Agent",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "megha-explorer",
+          "title": "Megha Agent",
+          "icon": "media/megha-icon.svg"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "megha-agent.generateArchitecture",
+          "group": "Megha"
+        },
+        {
+          "command": "megha-agent.generateTerraform",
+          "group": "Megha"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.54.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "mermaid": "^10.6.1",
+    "jsonwebtoken": "^9.1.2",
+    "keytar": "^7.9.0"
+  },
+  "optionalDependencies": {
+    "keytar": "^7.9.0"
+  }
+}

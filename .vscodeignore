@@ -1,0 +1,16 @@
+.git
+.gitignore
+.vscodeignore
+**/*.map
+**/*.ts
+out/
+node_modules
+.vscode-test/
+.vscode
+dist
+src
+tsconfig.json
+.eslintrc.json
+*.vsix
+.prettierrc
+.github
