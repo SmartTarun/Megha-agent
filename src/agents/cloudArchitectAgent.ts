@@ -99,11 +99,42 @@ export class MeghaCloudAgent {
 	}
 
 	private generateRecommendation(requirements: string): string {
-		return `Based on your requirements, I recommend a multi-cloud architecture with:
-- Primary cloud: AWS (cost-effective, rich service ecosystem)
-- Backup cloud: Azure (enterprise compliance, integration)
-- Disaster recovery: GCP (global network, data processing)
-- Use Terraform for IaC to manage all clouds uniformly`;
+		const r = requirements.toLowerCase();
+
+		const pattern =
+			r.includes('microservice') ? 'Microservices' :
+			r.includes('serverless') || r.includes('lambda') ? 'Serverless' :
+			r.includes('event') || r.includes('kafka') ? 'Event-Driven' :
+			r.includes('container') || r.includes('kubernetes') ? 'Containerized (Kubernetes)' :
+			r.includes('data lake') || r.includes('data warehouse') ? 'Data Platform' :
+			'Standard Multi-Tier';
+
+		const primary =
+			r.includes('azure') ? 'Azure' :
+			r.includes('gcp') || r.includes('google') ? 'GCP' :
+			'AWS';
+
+		const diagramSuggestions = [
+			r.includes('microservice') || r.includes('event') ? '`c4` — C4 context diagram' : null,
+			r.includes('auth') || r.includes('iam') || r.includes('rbac') ? '`accessflow` — RBAC access flow diagram' : null,
+			r.includes('network') || r.includes('vpc') || r.includes('subnet') ? '`network` — VPC & security-zone diagram' : null,
+			r.includes('pipeline') || r.includes('ci/cd') || r.includes('deploy') ? '`deployment` — CI/CD pipeline diagram' : null,
+			r.includes('stream') || r.includes('data') ? '`dataflow` — Data flow diagram' : null,
+		].filter(Boolean).join('\n- ');
+
+		return [
+			`**Recommended Pattern:** ${pattern}`,
+			`**Primary Cloud:** ${primary} — best fit based on detected keywords`,
+			`**Key Architecture Decisions:**`,
+			`- Use Terraform modules (modules/aws|azure|gcp) for IaC`,
+			r.includes('microservice') ? `- Apply Database-per-Service to avoid tight coupling` : '',
+			r.includes('serverless') ? `- Use API Gateway + Lambda for event-triggered compute` : '',
+			r.includes('event') ? `- Implement Dead Letter Queues for poison-message handling` : '',
+			r.includes('cache') || r.includes('redis') ? `- Add Redis cache tier to reduce DB read pressure` : '',
+			r.includes('auth') ? `- Enforce JWT + MFA; use short-lived tokens (15 min)` : '',
+			`**Suggested Diagram Types to Generate:**`,
+			diagramSuggestions ? `- ${diagramSuggestions}` : '- `architecture` — full architecture overview'
+		].filter(Boolean).join('\n');
 	}
 
 	private identifyRisks(requirements: string): Risk[] {
@@ -161,7 +192,7 @@ export interface ArchitectureSession {
 
 export interface Diagram {
 	id: string;
-	type: 'architecture' | 'accessflow' | 'mermaid' | 'drawio';
+	type: 'architecture' | 'accessflow' | 'mermaid' | 'drawio' | 'c4' | 'network' | 'dataflow' | 'sequence' | 'deployment';
 	name: string;
 	code: string;
 	format: 'mermaid' | 'drawio' | 'svg' | 'png';
